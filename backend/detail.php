@@ -39,6 +39,16 @@ if (isset($_POST['addCart']) && $_POST['addCart']) {
         $_SESSION['cart'][] = $product[0];
     }
 }
+
+
+//kiem tra user
+$name = $phone = $email = false;
+if (!empty($_SESSION['user'])) {
+    $name = $_SESSION['user']['name'];
+    $phone = '0' . $_SESSION['user']['phone'];
+    $email = $_SESSION['user']['email'];
+}
+
 ?>
 
 
@@ -120,13 +130,13 @@ if (isset($_POST['addCart']) && $_POST['addCart']) {
         <div class="col-lg-7 pb-5">
             <h3 class="font-weight-semi-bold"><?= $product[0]['name'] ?></h3>
             <div class="d-flex mb-3">
-                <div class="text-primary mr-2">
+                <!-- <div class="text-primary mr-2">
                     <small class="fas fa-star"></small>
                     <small class="fas fa-star"></small>
                     <small class="fas fa-star"></small>
                     <small class="fas fa-star-half-alt"></small>
                     <small class="far fa-star"></small>
-                </div>
+                </div> -->
                 <small class="pt-1">(<?= count($dataCmt)?> Reviews)</small>
             </div>
             <h3 class="font-weight-semi-bold mb-4">$<?= $product[0]['sale'] ?></h3>
@@ -229,11 +239,11 @@ if (isset($_POST['addCart']) && $_POST['addCart']) {
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Your Name *</label>
-                                    <input class="form-control fullName" name="fullName" type="text" placeholder="John" value="">
+                                    <input class="form-control fullName" name="fullName" type="text" placeholder="John" value="<?=$name?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Your Email *</label>
-                                    <input name="email" class="form-control email" type="text" placeholder="example@email.com" value="">
+                                    <input name="email" class="form-control email" type="text" placeholder="example@email.com" value="<?=$email?>">
                                 </div>
                                 <div class="form-group mb-0">
                                     <input type="button" value="Leave Your Review" class="btn btn-primary px-3 review">
@@ -366,8 +376,8 @@ if (isset($_POST['addCart']) && $_POST['addCart']) {
                     // console.log(JSON.parse(msg))
                     $('.show-comment').append(msg);
                     $(".message").val() = '';
-                    $(".fullName").val() = '';
-                    $(".email").val() = '';
+                    // $(".fullName").val() = '';
+                    // $(".email").val() = '';
                 });
         }
     })

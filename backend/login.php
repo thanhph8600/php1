@@ -80,21 +80,26 @@ if (isset($_POST['signIn']) && $_POST['signIn']) {
 		if($checkEmail[0]['email'] == $email && $checkEmail[0]['password'] ==$pass ) {
 				$_SESSION['user']  = $checkEmail[0];
 				echo '<p style="color:red;">OK</p>';
+				// if($email == 'admin@gmail.com'){
+				// 	header("location: ../admin/index.php");
+				// }else{
+				// 	header("location: index.php");
+				// }
 				header("location: index.php");
+
 		}else {
 			// echo '<p style="color:red;">Your username or account is incorrect</p>';
 			$checklogin = 'Your username or account is incorrect';
 		}
 	}else {
 		// echo '<p style="color:red;">Your username or account is incorrect</p>';
-		$checklogin = 'Your username or account is incorrect';
+		$checklogin = 'Email !!!!';
 
 	}
 
 }
 
 ?>
-
 
 
 

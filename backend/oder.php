@@ -163,28 +163,28 @@ if ($oder != false) { ?>
                     <p style="color: green">Thank you. Your order has been received.</p>
                     <ul>
                         <li>
-                            <p>Order number:<span style="color: black;font-size:18px"> <?= $oder[0]['code'] ?></span> </p>
+                            <p>Mã đơn hàng:<span style="color: black;font-size:18px"> <?= $oder[0]['code'] ?></span> </p>
                         </li>
                         <li>
-                            <p>Name: <span style="color: black;font-size:18px"> <?= $oder[0]['name'] ?></span></p>
+                            <p>Tên: <span style="color: black;font-size:18px"> <?= $oder[0]['name'] ?></span></p>
                         </li>
                         <li>
                             <p>Email: <span style="color: black;font-size:18px"> <?= $oder[0]['email'] ?></span></p>
                         </li>
                         <li>
-                            <p>Phone number: <span style="color: black;font-size:18px"> <?= $oder[0]['phone'] ?></span></p>
+                            <p>Số điện thoại: <span style="color: black;font-size:18px"> <?= $oder[0]['phone'] ?></span></p>
                         </li>
                         <li>
-                            <p>Address: <span style="color: black;font-size:18px"> <?= $oder[0]['address'] ?></span></p>
+                            <p>Địa chỉ: <span style="color: black;font-size:18px"> <?= $oder[0]['address'] ?></span></p>
                         </li>
                         <li>
-                            <p>Date: <span style="color: black;font-size:18px"> <?= $oder[0]['created_at'] ?></span></p>
+                            <p>ngày đặt hàng: <span style="color: black;font-size:18px"> <?= $oder[0]['created_at'] ?></span></p>
                         </li>
                         <li>
-                            <p>Total: <span style="color: black;font-size:18px"> <?= $oder[0]['totail'] ?></span></p>
+                            <p>Giá tiền: <span style="color: black;font-size:18px"> <?= $oder[0]['totail'] ?></span></p>
                         </li>
                         <li>
-                            <p>Payment method: <span style="color: black;font-size:18px"> <?= $oder[0]['payment'] ?></span></p>
+                            <p>Phương thức thanh toán: <span style="color: black;font-size:18px"> <?= $oder[0]['payment'] ?></span></p>
                         </li>
                         <li>
                             <?php
@@ -206,7 +206,7 @@ if ($oder != false) { ?>
                                     break;
                             }
                             ?>
-                            <p>Order status: <span style="color: black;font-size:18px"> <?= $status ?></span></p>
+                            <p>Tình trạng đơn hàng: <span style="color: black;font-size:18px"> <?= $status ?></span></p>
                         </li>
                     </ul>
                 </div>

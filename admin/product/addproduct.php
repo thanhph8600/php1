@@ -12,7 +12,7 @@ if (isset($_GET['slug']) && $_GET['slug']) {
     $id = executeResult($sqlId);
 }
 
-
+$checkfile = false;
 if (isset($_POST['addproduct']) && $_POST['addproduct']) {
     $name = $_POST['name'];
     $price = $_POST['price'];
@@ -21,100 +21,88 @@ if (isset($_POST['addproduct']) && $_POST['addproduct']) {
     $categoryID = $_POST['category'];
     $date = date('Y-m-d H:i:s');
 
-    $randum = rand(1, 1000);
-    $nameFile = $randum . $_FILES["upload"]["name"];
+    if(!empty($_FILES["upload"]["name"])){
+        $randum = rand(1, 1000);
+        $nameFile = $randum . $_FILES["upload"]["name"];
 
-    //check file
-    //file
-    $target_dir = "thumb/";
-    $target_file = $target_dir . $nameFile;
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            //check file
+            //file
+            $target_dir = "thumb/";
+            $target_file = $target_dir . $nameFile;
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    $check = getimagesize($_FILES["upload"]["tmp_name"]);
-    if ($check !== false) {
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
+            $check = getimagesize($_FILES["upload"]["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+
+            // Check if file already exists
+            if (file_exists($target_file)) {
+                echo "Sorry, file already exists.";
+                $uploadOk = 0;
+            }
+
+            // Check file size
+            if ($_FILES["upload"]["size"] > 500000) {
+                echo "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+
+            // Allow certain file formats
+            if (
+                $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif"
+            ) {
+                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $uploadOk = 0;
+            }
+
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "Sorry, your file was not uploaded.";
+                die;
+                // if everything is ok, try to upload file
+            } else {
+                if (move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                    die;
+                }
+            }
     }
-
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
-
-    // Check file size
-    if ($_FILES["upload"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-
-    // Allow certain file formats
-    if (
-        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif"
-    ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-        die;
-        // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["upload"]["tmp_name"], $target_file)) {
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-            die;
-        }
-    }
-    // move_uploaded_file($_FILES['upload']["tmp_name"], 'files/' . $_FILES['upload']['name']);
 
     //ktr xem co phai sua khong
     if (empty($id)) {
-        $sql = "INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `sale`, `content`, `thumb`, `created-at`, `updated-at`, `active`) VALUES (NULL, '" . $name . "', '" . $categoryID . "', '" . $price . "', '" . $sale . "', '" . $content . "', '" . $nameFile . "', '" . $date . "', '" . $date . "', '1')";
-        execute($sql);
-        header('location: ./product.php');
+        if(!empty($_FILES["upload"]["name"])){
+            
+            // move_uploaded_file($_FILES['upload']["tmp_name"], 'files/' . $_FILES['upload']['name']);
+            $sql = "INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `sale`, `content`, `thumb`, `created-at`, `updated-at`, `active`) VALUES (NULL, '" . $name . "', '" . $categoryID . "', '" . $price . "', '" . $sale . "', '" . $content . "', '" . $nameFile . "', '" . $date . "', '" . $date . "', '1')";
+            execute($sql);
+            header('location: ./product.php');
+            }else{
+                $checkfile = 'Bạn chưa chọn ảnh';
+            }
     } else {
-        var_dump(($id[0]['id']));
-        $sql = "UPDATE `products` SET `name`='" . $name . "',`category_id`='" . $categoryID . "',`price`='" . $price . "',`sale`='" . $sale . "',`content`='" . $content . "',`thumb`='" . $nameFile . "',`updated-at`='" . $date . "',`active`='1' WHERE `id` = '" . $id[0]['id'] . "'";
+        if(empty($_FILES["upload"]["name"])){
+            $sql = "UPDATE `products` SET `name`='" . $name . "',`category_id`='" . $categoryID . "',`price`='" . $price . "',`sale`='" . $sale . "',`content`='" . $content . "',`updated-at`='" . $date . "',`active`='1' WHERE `id` = '" . $id[0]['id'] . "'";
+
+        }else{
+            $sql = "UPDATE `products` SET `name`='" . $name . "',`category_id`='" . $categoryID . "',`price`='" . $price . "',`sale`='" . $sale . "',`content`='" . $content . "',`thumb`='" . $nameFile . "',`updated-at`='" . $date . "',`active`='1' WHERE `id` = '" . $id[0]['id'] . "'";
+        }
         execute($sql);
         header('location: ./product.php');
     }
 }
 
+include '../header.php';
 ?>
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../../public/admin/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../../public/admin/assets/img/favicon.png">
-    <title>
-        Material Dashboard 2 by Creative Tim
-    </title>
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <!-- Nucleo Icons -->
-    <link href="../../public/admin/assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../../public/admin/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <!-- CSS Files -->
-    <link id="pagestyle" href="../../public/admin/assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
-
-</head>
 <style>
     .input_Addproduct {
         background-color: #04AA6D;
@@ -215,15 +203,7 @@ if (isset($_POST['addproduct']) && $_POST['addproduct']) {
     }
 </style>
 
-<body class="g-sidenav-show  bg-gray-200">
-    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-        <div class="sidenav-header">
-            <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-                <img src="../../public/admin/assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
-            </a>
-        </div>
+
         <hr class="horizontal light mt-0 mb-2">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
@@ -454,7 +434,7 @@ if (isset($_POST['addproduct']) && $_POST['addproduct']) {
                                         <img style="display: block;" src="./thumb/<?php echo (!empty($id)) ? $id[0]['thumb'] : ''; ?>" alt="" id="img-preview">
                                     </div>
 
-                                    <label style="color:red;" for=""></label>
+                                    <label style="color:red;" for=""><?=$checkfile?></label>
                                     <input name="addproduct" type="submit" value="Add">
                                 </form>
                             </div>
@@ -586,12 +566,6 @@ if (isset($_POST['addproduct']) && $_POST['addproduct']) {
                 lf = 1;
             } else {
                 category.style.border = '1px solid green'
-            }
-
-            //check file
-            if (!input.value) {
-                input.style.color = 'red'
-                lf = 1;
             }
 
             if (!lf == 0) {

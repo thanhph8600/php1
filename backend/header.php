@@ -2,8 +2,10 @@
 session_start();
 include '../backend/db/dbhelper.php';
 
+$admin = false;
 if(empty($_SESSION['user'])) {
 }else {
+    $admin=true;
 }
 
 if(isset($_POST['logOut'])&& $_POST['logOut']) {
@@ -158,6 +160,7 @@ $category = executeResult($sql);
 
                                 <a href="../backend/login.php" class="nav-item nav-link">Login</a>
                                 <a href="../backend/login.php" class="nav-item nav-link">|Register</a>
+
                             
                             <?php
                             }else { 
@@ -168,12 +171,11 @@ $category = executeResult($sql);
                                     </a>
                                 </form>
                                 
+                                
                             ';
-
-                            
+                            if($_SESSION['user']['email'] == 'admin@gmail.com') echo '<a href="../admin/index.php" target="_blank" class="nav-item nav-link">| Dashboard</a>';
                             }
                             ?>
-
                         </div>
                     </div>
                 </nav>

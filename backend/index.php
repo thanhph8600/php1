@@ -153,7 +153,7 @@ $banner = executeResult($sql);
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="text-center cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
+                    <a href="shop.php?category=28" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
                         <img  class="img-fluid" src="../admin/category/img/dien-thoai.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Điện thoại di động</h5>
@@ -162,7 +162,7 @@ $banner = executeResult($sql);
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="text-center cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
+                    <a href="shop.php?category=32" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
                         <img class="img-fluid" src="../admin/category/img/laptop.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Laptop</h5>
@@ -171,7 +171,7 @@ $banner = executeResult($sql);
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="text-center cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
+                    <a href="shop.php?category=33" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
                         <img class="img-fluid" src="../admin/category/img/dong-ho.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Đồng hồ</h5>
@@ -180,7 +180,7 @@ $banner = executeResult($sql);
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="text-center cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
+                    <a href="shop.php?category=48" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
                         <img class="img-fluid" src="../admin/category/img/tablet.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Tablet</h5>
@@ -189,7 +189,7 @@ $banner = executeResult($sql);
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="text-center cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
+                    <a href="shop.php?category=50" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
                         <img class="img-fluid" src="../admin/category/img/smartwatch.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Smartwatch</h5>
@@ -198,7 +198,7 @@ $banner = executeResult($sql);
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="text-center cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
+                    <a href="shop.php?category=49" class="cat-img position-relative overflow-hidden mb-3 product-imgxx">
                         <img class="img-fluid" src="../admin/category/img/phu-kien.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Phụ kiện</h5>
@@ -261,8 +261,12 @@ $banner = executeResult($sql);
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                <a href="./detail.php?id=' . $item['id'] . '" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                <form action="shop.php" method="post">
+                                    <input type="hidden" name="id" value="' . $item['id'] . '">
+                                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i> 
+                                    <input name="addCart" class="btn btn-sm text-dark p-0" type="submit" value="Add To Cart"></a>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -321,8 +325,12 @@ $banner = executeResult($sql);
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-between bg-light border">
-                                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                    <a href="./detail.php?id=' . $item['id'] . '" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                    <form action="shop.php" method="post">
+                                        <input type="hidden" name="id" value="' . $item['id'] . '">
+                                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i> 
+                                        <input name="addCart" class="btn btn-sm text-dark p-0" type="submit" value="Add To Cart"></a>
+                                    </form>
                                 </div>
                             </div>
                         </div>
