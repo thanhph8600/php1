@@ -1,36 +1,35 @@
 <?php
 ob_start();
-
 include './header.php';
 $products = 0;
 $sql = "SELECT * FROM `products`";
 $products = executeResult($sql);
 
-if (empty($_SESSION['cart'])) $_SESSION['cart'] = [];
+// if (empty($_SESSION['cart'])) $_SESSION['cart'] = [];
 
-if (isset($_POST['addCart']) && $_POST['addCart']) {
-    $id = $_POST['id'];
-    // $index = $_POST['index'];
-    $sql = "SELECT * FROM `products` WHERE `id` ='" . $id . "'";
-    $product = executeResult($sql);
+// if (isset($_POST['addCart']) && $_POST['addCart']) {
+//     $id = $_POST['id'];
+//     // $index = $_POST['index'];
+//     $sql = "SELECT * FROM `products` WHERE `id` ='" . $id . "'";
+//     $product = executeResult($sql);
 
-    $check = 1;
-    /***************************** */
-    foreach ($_SESSION['cart'] as $key => $item) {
-        if ($item['id'] == $product[0]['id']) {
-            $_SESSION['cart'][$key]['quarity'] += 1;
-            $check = 0;
-            break;
-        }
-    }
+//     $check = 1;
+//     /***************************** */
+//     foreach ($_SESSION['cart'] as $key => $item) {
+//         if ($item['id'] == $product[0]['id']) {
+//             $_SESSION['cart'][$key]['quarity'] += 1;
+//             $check = 0;
+//             break;
+//         }
+//     }
 
-    if ($check == 1) {
-        $product[0]['quarity'] = 1;
-        $_SESSION['cart'][] = $product[0];
-    }
+//     if ($check == 1) {
+//         $product[0]['quarity'] = 1;
+//         $_SESSION['cart'][] = $product[0];
+//     }
 
-    header('location: cart.php');
-}
+//     header('location: cart.php');
+// }
 
 
 //phân trang
@@ -279,12 +278,14 @@ ob_end_flush();
                                     <div class="card-footer d-flex justify-content-between bg-light border">
                                         <a href="./detail.php?id=' . $item['id'] . '" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                                         
-                                        <form action="" method="post">
-                                            <input type="hidden" name="index" value="' . $chek . '">
+
+                                        <div class="input-group-btn" onclick="moreproduct(this)">
                                             <input type="hidden" name="id" value="' . $item['id'] . '">
-                                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i> 
-                                            <input name="addCart" class="btn btn-sm text-dark p-0" type="submit" value="Add To Cart"></a>
-                                        </form>
+                                            <button class="btn btn-sm text-dark p-0">
+                                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                                            </button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -294,6 +295,13 @@ ob_end_flush();
                 }
 
                 ?>
+                                                        <!-- <form action="" method="post">
+                                            <input type="hidden" name="index" value="' . $chek . '">
+                                            <input type="hidden" name="id" value="' . $item['id'] . '">
+                                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i> 
+
+                                            <input name="addCart" class="btn btn-sm text-dark p-0" type="submit" value="Add To Cart"></a>
+                                        </form> -->
 
                 <!--  -->
 
@@ -334,6 +342,18 @@ ob_end_flush();
 
 <script>
     document.getElementById('navbar-vertical').classList.remove('show')
+
+    function moreproduct(e) {
+        var id = e.getElementsByTagName('input')[0].value
+        console.log(id)
+        $.ajax({
+                    method: "POST",
+                    url: "./moresp.php",
+                    data: {
+                        id : id
+                    }
+                })
+    }
 </script>
 <?php
 include './footer.php';

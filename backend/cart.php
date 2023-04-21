@@ -1,6 +1,9 @@
 <?php
 include './header.php';
 
+if (empty($_SESSION['cart'])) $_SESSION['cart'] = [];
+
+
 $cart =0;
 if(empty($_SESSION['cart'])) {
     include './footer.php';
@@ -88,7 +91,7 @@ $sumtatil = $sum + 5000;
                     <tbody class="align-middle">
                         <?php
                             $i=0;
-                            foreach($_SESSION['cart'] as $item){
+                            foreach($_SESSION['cart']  as $key => $item){
                                 echo '
                                 <tr>
                                     <td class="align-middle">
@@ -96,18 +99,19 @@ $sumtatil = $sum + 5000;
                                     </td>
                                     <td class="align-middle">
                                         <p class="name">'.$item['name'].'</p>
+                                        <input type="hidden" name="id" value="'.$key.'">
                                     </td>
                                     <td class="align-middle">'.$item['sale'].'</td>
                                     <td class="align-middle">
                                     
                                         <div class="input-group quantity mx-auto" style="width: 100px;">
-                                            <div class="input-group-btn" onclick="moreproduct(this)">
+                                            <div class="input-group-btn" onclick="moreproduct(this,0)">
                                                 <button class="btn btn-sm btn-primary btn-minus" >
                                                 <i class="fa fa-minus"></i>
                                                 </button>
                                             </div>
                                             <input name="quarity" type="text" class="form-control form-control-sm bg-secondary text-center" value="'.$item['quarity'].'">
-                                            <div class="input-group-btn" onclick="moreproduct(this)">
+                                            <div class="input-group-btn" onclick="moreproduct(this,1)">
                                                 <button class="btn btn-sm btn-primary btn-plus">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
@@ -117,7 +121,7 @@ $sumtatil = $sum + 5000;
                                     <td class="align-middle totail">'.$item['totail'].'</td>
                                     <td class="align-middle">
 
-                                    <form action="" method="post"onsubmit="return deleteproduct()">
+                                    <form action="" method="post" onsubmit="return deleteproduct()">
                                         <input type="hidden" name="name" value="'.$i.'">
                                         <input name="delete" class="btn btn-sm btn-primary" type="submit" value="&#10006;">
                                     </form>
@@ -183,7 +187,7 @@ $sumtatil = $sum + 5000;
       }
     }
 
-    function moreproduct(e) {
+    function moreproduct(e,pro) {
         var quatily = e.parentElement.getElementsByTagName('input')[0].value
         var price = e.parentElement.parentElement.parentElement.getElementsByTagName('td')[2].innerHTML
         var totail = e.parentElement.parentElement.parentElement.getElementsByTagName('td')[4]
@@ -202,7 +206,30 @@ $sumtatil = $sum + 5000;
         }else {
             var ship = 5000
         }
-        document.getElementsByClassName('sumTitail')[0].innerHTML = sum + ship;
+        document.getElementsByClassName('sumTitail')[0].innerHTML = sum + ship + ' đ';
+        
+        var id_sp = e.parentElement.parentElement.parentElement.getElementsByTagName('input')[0].value 
+        console.log(id_sp)
+        if(pro == 1){
+            $.ajax({
+                    method: "POST",
+                    url: "./moresp.php",
+                    data: {
+                        active: 1,
+                        index: id_sp
+                    }
+                })
+        }else{
+            $.ajax({
+                    method: "POST",
+                    url: "./moresp.php",
+                    data: {
+                        active: 2,
+                        index: id_sp
+                    }
+                })
+        }
+
     }
 
     function loadtotail() {
